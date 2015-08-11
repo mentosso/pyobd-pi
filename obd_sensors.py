@@ -390,6 +390,23 @@ SENSORS = [
     Sensor("c3"                     , "Returns numerous data, including Drive Condition ID and Engine Speed"	, "01C3" , hex_string ,""       ),
     Sensor("c4"                     , "B5 is Engine Idle Request B6 is Engine Stop Request*"		            , "01C4" , hex_string ,""       ),
 
+    Sensor("dtc_frame_freezed"      , "DTC that caused freeze frame to be stored."		                        , "0202" , hex_string ,""       ),
+
+    Sensor("pids_mode09"            , "Mode 9 supported PIDs (01 to 20)."		                                , "0900" , hex_to_bitstring ,""       ),
+    Sensor("vin_msg_count"          , "VIN Message Count in PID 02. Only ISO 9141-2, ISO 14230-4 SAE J1850."	, "0901" , hex_string ,""       ),
+    Sensor("vin"                    , "Vehicle Identification Number (VIN)"		                                , "0902" , hex_string ,""       ),
+    Sensor("calib_id_msg"           , "Calibration ID message count Only ISO 9141-2 ISO 14230-4 SAE J1850."		, "0903" , hex_string ,""       ),
+    Sensor("calib_id_"              , "Calibration ID"		                                                    , "0904" , hex_string ,""       ),
+    Sensor("cvn_msg"                , "Calibration verification numbers (CVN) message count"		            , "0905" , hex_string ,""       ),
+    Sensor("cvn"                    , "Calibration verification numbers (CVN)"		                            , "0906" , hex_string ,""       ),
+    Sensor("tracking_msg_count"     , "In-use performance tracking message count for PID 08 and 0B"		        , "0907" , hex_string ,""       ),
+    Sensor("tracking_spark"         , "In-use performance tracking for spark ignition vehicles"		            , "0908" , hex_string ,""       ),
+    Sensor("ecu_name_msg"           , "ECU name message count for PID 0A"		                                , "0909" , hex_string ,""       ),
+    Sensor("ecu_name"               , "ECU name"		                                                        , "090A" , hex_string ,""       ),
+    Sensor("tracking_compression"   , "In-use performance tracking for compression ignition vehicles"		    , "090B" , hex_string ,""       ),
+
+
+
     ]
      
     
