@@ -376,6 +376,20 @@ SENSORS = [
     Sensor("pm_nte"                 , "PM NTE control area status"		                                        , "017E" , hex_string ,""       ),
     Sensor("eng_run_time"           , "Engine run time"		                                                    , "017F" , hex_string ,""       ),
 
+    Sensor("pids5"                  , "Supported PIDs 81-A0"		                                            , "0180" , hex_to_bitstring ,""       ),
+    Sensor("aecd_1"                 , "Engine run time for Auxiliary Emissions Control Device(AECD) 1"		    , "0181" , hex_string ,""       ),
+    Sensor("aecd_2"                 , "Engine run time for Auxiliary Emissions Control Device(AECD) 2"		    , "0182" , hex_string ,""       ),
+    Sensor("nox_sensor"             , "NOx sensor"		                                                        , "0183" , hex_string ,""       ),
+    Sensor("manifold_temp"          , "Manifold surface temperature"		                                    , "0184" , hex_string ,""       ),
+    Sensor("nox_system"             , "NOx reagent system"		                                                , "0185" , hex_string ,""       ),
+    Sensor("pm_sensor"              , "Particulate matter (PM) sensor"		                                    , "0186" , hex_string ,""       ),
+    Sensor("manifold_press"         , "Intake manifold absolute pressure"		                                , "0187" , hex_string ,""       ),
+
+    Sensor("pids6"                  , "Supported PIDs A1-C0"		                                            , "01A0" , hex_to_bitstring ,""       ),
+    Sensor("pids7"                  , "Supported PIDs C1-E0"		                                            , "01C0" , hex_to_bitstring ,""       ),
+    Sensor("c3"                     , "Returns numerous data, including Drive Condition ID and Engine Speed"	, "01C3" , hex_string ,""       ),
+    Sensor("c4"                     , "B5 is Engine Idle Request B6 is Engine Stop Request*"		            , "01C4" , hex_string ,""       ),
+
     ]
      
     
