@@ -177,6 +177,32 @@ def fuel_inj_timing(code):
 def fuel_rate(code):
     return mil(code) / 100
 
+def demand_eng(code):
+    code = hex_to_int(code)
+    return code - 125
+
+def percent_torque_b(code):
+    code = hex_to_int(code[2:4])
+    return code - 125
+
+def percent_torque_c(code):
+    code = hex_to_int(code[4:6])
+    return code - 125
+
+def percent_torque_d(code):
+    code = hex_to_int(code[6:8])
+    return code - 125
+
+def percent_torque_e(code):
+    code = hex_to_int(code[8:10])
+    return code - 125
+
+def hex_string(code):
+    string = "0x"
+    for value in code:
+        string += value
+    return string
+
 class Sensor:
     def __init__(self, shortName, sensorName, sensorcommand, sensorValueFunction, u):
         self.shortname = shortName
@@ -308,10 +334,47 @@ SENSORS = [
     Sensor("fuel_rate"              , "Engine fuel rate"	            			                            , "015E" , fuel_rate   ,"L/h"    ),
     Sensor("fuel_inj_timing"        , "Emission requirements to which vehicle is designed"	            		, "015F" , cpass   ,""    ),
 
+    Sensor("pids4"                  , "Supported PIDs 61-80"		                                            , "0160" , hex_to_bitstring ,""       ),
+    Sensor("demand_eng"             , "Driver's demand engine - percent torque"		                            , "0161" , demand_eng ,"%"       ),
+    Sensor("actual_engine"          , "Actual engine - percent torque"		                                    , "0162" , demand_eng ,"%"       ),
+    Sensor("reference_torque"       , "Engine reference torque"		                                            , "0163" , mil ,"Nm"       ),
 
+    Sensor("percent_torque_a"       , "Engine percent torque data A"		                                    , "0164" , demand_eng ,"%"       ),
+    Sensor("percent_torque_b"       , "Engine percent torque data B"		                                    , "0164" , demand_eng ,"%"       ),
+    Sensor("percent_torque_c"       , "Engine percent torque data C"		                                    , "0164" , demand_eng ,"%"       ),
+    Sensor("percent_torque_d"       , "Engine percent torque data D"		                                    , "0164" , demand_eng ,"%"       ),
+    Sensor("percent_torque_e"       , "Engine percent torque data E"		                                    , "0164" , demand_eng ,"%"       ),
 
+    Sensor("auxiliary_io"           , "Auxiliary input / output supported"		                                , "0165" , hex_string ,""       ),
+    Sensor("air_flow_sensor"        , "Mass air flow sensor"		                                            , "0166" , hex_string ,""       ),
+    Sensor("coolant_temp"           , "Engine coolant temperature"		                                        , "0167" , hex_string ,""       ),
+    Sensor("in_air_temp"            , "Intake air temperature sensor"		                                    , "0168" , hex_string ,""       ),
+    Sensor("egr"                    , "Commanded EGR and EGR Error"		                                        , "0169" , hex_string ,""       ),
 
+    Sensor("diesel_air"             , "Commanded Diesel intake air control and relative intake air position"	, "016A" , hex_string ,""       ),
+    Sensor("recirculation_temp"     , "Exhaust gas recirculation temperature"		                            , "016B" , hex_string ,""       ),
+    Sensor("throttle_actuator"      , "Commanded throttle actuator control and relative throttle position"		, "016C" , hex_string ,""       ),
+    Sensor("fuel_press_system"      , "Fuel pressure control system"		                                    , "016D" , hex_string ,""       ),
+    Sensor("injection_pressure"     , "Injection pressure control system"		                                , "016E" , hex_string ,""       ),
+    Sensor("turbocharger_press"     , "Turbocharger compressor inlet pressure"		                            , "016F" , hex_string ,""       ),
 
+    Sensor("boost_press"            , "Boost pressure control"		                                            , "0170" , hex_string ,""       ),
+    Sensor("vgt"                    , "Variable Geometry turbo (VGT) control"		                            , "0171" , hex_string ,""       ),
+    Sensor("westgate_ctrl"          , "Wastegate control"		                                                , "0172" , hex_string ,""       ),
+    Sensor("exhaust_press"          , "Exhaust pressure"		                                                , "0173" , hex_string ,""       ),
+    Sensor("turbocharger_rpm"       , "Turbocharger RPM"		                                                , "0174" , hex_string ,""       ),
+    Sensor("turbocharger_temp"      , "Turbocharger temperature"		                                        , "0175" , hex_string ,""       ),
+    Sensor("turbocharger_temp2"     , "Turbocharger temperature 2"		                                        , "0176" , hex_string ,""       ),
+    Sensor("charge_cooler_temp"     , "Charge air cooler temperature (CACT)"		                            , "0177" , hex_string ,""       ),
+    Sensor("egt1"                   , "Exhaust Gas temperature (EGT) Bank 1"		                            , "0178" , hex_string ,""       ),
+    Sensor("egt2"                   , "Exhaust Gas temperature (EGT) Bank 2"		                            , "0179" , hex_string ,""       ),
+
+    Sensor("dpf1"                   , "Diesel particulate filter (DPF) 1"		                                , "017A" , hex_string ,""       ),
+    Sensor("dpf2"                   , "Diesel particulate filter (DPF) 2"		                                , "017B" , hex_string ,""       ),
+    Sensor("dpf_temperature"        , "Diesel Particulate filter (DPF) temperature"		                        , "017C" , hex_string ,""       ),
+    Sensor("nox_nte"                , "NOx NTE control area status"		                                        , "017D" , hex_string ,""       ),
+    Sensor("pm_nte"                 , "PM NTE control area status"		                                        , "017E" , hex_string ,""       ),
+    Sensor("eng_run_time"           , "Engine run time"		                                                    , "017F" , hex_string ,""       ),
 
     ]
      
@@ -320,7 +383,8 @@ SENSORS = [
 
 def test():
     for i in SENSORS:
-        print i.name, i.value("F")
+        print(i.name, i.value("F"))
+
 
 if __name__ == "__main__":
     test()
