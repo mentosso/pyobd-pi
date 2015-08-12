@@ -58,19 +58,19 @@ class OBD_Recorder():
         
         print "Logging started"
         
-        while 1:
-            localtime = datetime.now()
-            current_time = str(localtime.hour)+":"+str(localtime.minute)+":"+str(localtime.second)+"."+str(localtime.microsecond)
-            log_string = current_time
-            results = {}
-            for index in self.sensorlist:
-                (name, value, unit) = self.port.sensor(index)
-                log_string = log_string + ","+str(value)
-                results[obd_sensors.SENSORS[index].shortname] = value;
-
-            gear = self.calculate_gear(results["rpm"], results["speed"])
-            log_string = log_string #+ "," + str(gear)
-            self.log_file.write(log_string+"\n")
+ 
+        localtime = datetime.now()
+        current_time = str(localtime.hour)+":"+str(localtime.minute)+":"+str(localtime.second)+"."+str(localtime.microsecond)
+        log_string = current_time
+        results = {}
+        for index in self.sensorlist:
+            (name, value, unit) = self.port.sensor(index)
+            print("{} : {}".format(obd_sensors.SENSORS[index].shortname, str(value)))
+	    log_string = log_string + ","+str(value)
+            results[obd_sensors.SENSORS[index].shortname] = value;
+	gear = self.calculate_gear(results["rpm"], results["speed"])
+	log_string = log_string #+ "," + str(gear)
+        self.log_file.write(log_string+"\n")
 
             
     def calculate_gear(self, rpm, speed):
@@ -94,7 +94,8 @@ class OBD_Recorder():
         return gear
         
 username = getpass.getuser()  
-logitems = ["rpm", "speed", "throttle_pos", "load", "fuel_status"]
+logitems = ["rpm", "speed", "throttle_pos", "load", "fuel_status", "pids", "dtc_status", "dtc_ff", "fuel_status", "load", "temp", "short_term_fuel_trim_1", "long_term_fuel_trim_1", "short_term_fuel_trim_2", "long_term_fuel_trim_2",
+	"fuel_pressure", "manifold_pressure", "timing_advance", "intake_air_temp"]
 o = OBD_Recorder('/home/'+username+'/pyobd-pi/log/', logitems)
 o.connect()
 
