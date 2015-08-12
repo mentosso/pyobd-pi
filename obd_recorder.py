@@ -94,8 +94,12 @@ class OBD_Recorder():
         return gear
         
 username = getpass.getuser()  
-logitems = ["rpm", "speed", "throttle_pos", "load", "fuel_status", "pids", "dtc_status", "dtc_ff", "fuel_status", "load", "temp", "short_term_fuel_trim_1", "long_term_fuel_trim_1", "short_term_fuel_trim_2", "long_term_fuel_trim_2",
-	"fuel_pressure", "manifold_pressure", "timing_advance", "intake_air_temp"]
+
+logitems = []
+for index, e in enumerate(obd_sensors.SENSORS):
+    logitems.append(e.shortname)
+
+
 o = OBD_Recorder('/home/'+username+'/pyobd-pi/log/', logitems)
 o.connect()
 
