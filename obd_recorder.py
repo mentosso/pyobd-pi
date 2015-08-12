@@ -18,7 +18,16 @@ class OBD_Recorder():
         localtime = time.localtime(time.time())
         filename = path+"car-"+str(localtime[0])+"-"+str(localtime[1])+"-"+str(localtime[2])+"-"+str(localtime[3])+"-"+str(localtime[4])+"-"+str(localtime[5])+".log"
         self.log_file = open(filename, "w", 128)
-        self.log_file.write("Time,RPM,MPH,Throttle,Load,Fuel Status\n");
+	
+	str_shortnames = ""
+	str_name = ""
+	str_cmd = ""
+	for i in obd_sensors.SENSORS:
+	    str_shortnames += i.shortname + ";"
+	    str_name += i.name + ";"
+	    str_cmd += i.cmd + ";"
+    		
+        self.log_file.write(str_shortnames + "\n" + str_name + "\n" + str_cmd + "\n");
 
         for item in log_items:
             self.add_log_item(item)
@@ -65,12 +74,13 @@ class OBD_Recorder():
         results = {}
         for index in self.sensorlist:
             (name, value, unit) = self.port.sensor(index)
-            print("{} : {}".format(obd_sensors.SENSORS[index].shortname, str(value)))
+            #print("{} : {}".format(obd_sensors.SENSORS[index].shortname, str(value)))
 	    log_string = log_string + ","+str(value)
             results[obd_sensors.SENSORS[index].shortname] = value;
 	gear = self.calculate_gear(results["rpm"], results["speed"])
 	log_string = log_string #+ "," + str(gear)
         self.log_file.write(log_string+"\n")
+	print(localtime) 
 
             
     def calculate_gear(self, rpm, speed):
