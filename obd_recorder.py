@@ -67,20 +67,20 @@ class OBD_Recorder():
         
         print "Logging started"
         
- 
-        localtime = datetime.now()
-        current_time = str(localtime.hour)+":"+str(localtime.minute)+":"+str(localtime.second)+"."+str(localtime.microsecond)
-        log_string = current_time
-        results = {}
-        for index in self.sensorlist:
-            (name, value, unit) = self.port.sensor(index)
-            #print("{} : {}".format(obd_sensors.SENSORS[index].shortname, str(value)))
-	    log_string = log_string + ","+str(value)
-            results[obd_sensors.SENSORS[index].shortname] = value;
-	gear = self.calculate_gear(results["rpm"], results["speed"])
-	log_string = log_string #+ "," + str(gear)
-        self.log_file.write(log_string+"\n")
-	print(localtime) 
+ 	while 1:
+            localtime = datetime.now()
+            current_time = str(localtime.hour)+":"+str(localtime.minute)+":"+str(localtime.second)+"."+str(localtime.microsecond)
+            log_string = current_time
+            results = {}
+            for index in self.sensorlist:
+                (name, value, unit) = self.port.sensor(index)
+                #print("{} : {}".format(obd_sensors.SENSORS[index].shortname, str(value)))
+	        log_string = log_string + ";"+str(value)
+                results[obd_sensors.SENSORS[index].shortname] = value;
+	    gear = self.calculate_gear(results["rpm"], results["speed"])
+	    log_string = log_string #+ ";" + str(gear)
+            self.log_file.write(log_string+"\n")
+	    print(localtime) 
 
             
     def calculate_gear(self, rpm, speed):
