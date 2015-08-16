@@ -67,21 +67,21 @@ class OBD_Recorder():
         
         print "Logging started"
     
-        str_shortnames = ""
-        str_name = ""
-        str_cmd = ""
-        print len(self.sensorlist), " ", len(obd_sensors.SENSORS)
-	print("Sensor list: {}".format(obd_sensors.SENSORS))
-	print("Sensors: {}".format(self.sensorlist))
+        str_shortnames = "time;"
+        str_name = "time;"
+        str_cmd = "time;"
+        #print len(self.sensorlist), " ", len(obd_sensors.SENSORS)
+	#print("Sensor list: {}".format(obd_sensors.SENSORS))
+	#print("Sensors: {}".format(self.sensorlist))
 	lista = list(self.sensorlist)
         for index in self.sensorlist:
 	    # print self.sensorlist
             (name, value, unit) = self.port.sensor(index)
             if str(value).strip() == 'NODATA':
-		print "if: ", index, " ", value
+		# print "if: ", index, " ", value
                 lista.remove(index)
             else:
-                print "else", index, " ", value
+                # print "else", index, " ", value
                 str_shortnames += obd_sensors.SENSORS[index].shortname + ";"
                 str_name += obd_sensors.SENSORS[index].name + ";"
                 str_cmd += obd_sensors.SENSORS[index].cmd + ";"
@@ -96,7 +96,7 @@ class OBD_Recorder():
             log_string = current_time
             results = {}
             for index in self.sensorlist:
-                print index
+                #print index
                 (name, value, unit) = self.port.sensor(index)
                 #print("{} : {}".format(obd_sensors.SENSORS[index].shortname, str(value)))
 	        log_string = log_string + ";"+str(value)
