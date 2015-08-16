@@ -19,15 +19,15 @@ class OBD_Recorder():
         filename = path+"car-"+str(localtime[0])+"-"+str(localtime[1])+"-"+str(localtime[2])+"-"+str(localtime[3])+"-"+str(localtime[4])+"-"+str(localtime[5])+".log"
         self.log_file = open(filename, "w", 128)
 	
-	str_shortnames = ""
-	str_name = ""
-	str_cmd = ""
-	for i in obd_sensors.SENSORS:
-	    str_shortnames += i.shortname + ";"
-	    str_name += i.name + ";"
-	    str_cmd += i.cmd + ";"
+	# str_shortnames = ""
+	# str_name = ""
+	# str_cmd = ""
+	# for i in obd_sensors.SENSORS:
+	#     str_shortnames += i.shortname + ";"
+	#     str_name += i.name + ";"
+	#     str_cmd += i.cmd + ";"
     		
-        self.log_file.write(str_shortnames + "\n" + str_name + "\n" + str_cmd + "\n");
+ #        self.log_file.write(str_shortnames + "\n" + str_name + "\n" + str_cmd + "\n");
 
         for item in log_items:
             self.add_log_item(item)
@@ -66,19 +66,39 @@ class OBD_Recorder():
             return None
         
         print "Logging started"
-        
- 	while 1:
+    
+        str_shortnames = ""
+        str_name = ""
+        str_cmd = ""
+        print len(self.sensorlist), " ", len(obd_sensors.SENSORS)
+        for index in self.sensorlist:
+	    # print self.sensorlist
+            (name, value, unit) = self.port.sensor(index)
+            if str(value).strip() == 'NODATA':
+		print index, " ", value
+                self.sensorlist.remove(index)
+            else:
+                print index, " ", value
+                str_shortnames += obd_sensors.SENSORS[index].shortname + ";"
+                str_name += obd_sensors.SENSORS[index].name + ";"
+                str_cmd += obd_sensors.SENSORS[index].cmd + ";"
+        self.log_file.write(str_shortnames + "\n" + str_name + "\n" + str_cmd + "\n");
+
+	print len(self.sensorlist), " ", len(obd_sensors.SENSORS)
+
+     	while 1:
             localtime = datetime.now()
             current_time = str(localtime.hour)+":"+str(localtime.minute)+":"+str(localtime.second)+"."+str(localtime.microsecond)
             log_string = current_time
             results = {}
             for index in self.sensorlist:
+                print index
                 (name, value, unit) = self.port.sensor(index)
                 #print("{} : {}".format(obd_sensors.SENSORS[index].shortname, str(value)))
 	        log_string = log_string + ";"+str(value)
                 results[obd_sensors.SENSORS[index].shortname] = value;
-	    gear = self.calculate_gear(results["rpm"], results["speed"])
-	    log_string = log_string #+ ";" + str(gear)
+	            # gear = self.calculate_gear(results["rpm"], results["speed"])
+	            # log_string = log_string #+ ";" + str(gear)
             self.log_file.write(log_string+"\n")
 	    print(localtime) 
 
@@ -108,7 +128,6 @@ username = getpass.getuser()
 logitems = []
 for index, e in enumerate(obd_sensors.SENSORS):
     logitems.append(e.shortname)
-
 
 o = OBD_Recorder('/home/'+username+'/pyobd-pi/log/', logitems)
 o.connect()
