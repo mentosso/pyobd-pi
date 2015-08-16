@@ -73,6 +73,9 @@ class OBD_Recorder():
         #print len(self.sensorlist), " ", len(obd_sensors.SENSORS)
 	#print("Sensor list: {}".format(obd_sensors.SENSORS))
 	#print("Sensors: {}".format(self.sensorlist))
+
+	only_once = ['01001', '01011', '01201', '09001', '09011', '09031' '09041', '09051', '09061', '09071', '09081']
+
 	lista = list(self.sensorlist)
         for index in self.sensorlist:
 	    # print self.sensorlist
@@ -81,10 +84,14 @@ class OBD_Recorder():
 		# print "if: ", index, " ", value
                 lista.remove(index)
             else:
-                # print "else", index, " ", value
-                str_shortnames += obd_sensors.SENSORS[index].shortname + ";"
-                str_name += obd_sensors.SENSORS[index].name + ";"
-                str_cmd += obd_sensors.SENSORS[index].cmd + ";"
+		if obd_sensors.SENSORS[index].cmd not in only_once:
+                	# print "else", index, " ", value
+                	str_shortnames += obd_sensors.SENSORS[index].shortname + ";"
+                	str_name += obd_sensors.SENSORS[index].name + ";"
+                	str_cmd += obd_sensors.SENSORS[index].cmd + ";"
+		else:
+			lista.remove(index)
+
 	self.sensorlist = lista
         self.log_file.write(str_shortnames + "\n" + str_name + "\n" + str_cmd + "\n");
 
