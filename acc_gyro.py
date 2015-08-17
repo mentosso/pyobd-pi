@@ -78,6 +78,9 @@ class AccGyro:
     def get_accel_z_scaled(self):
         return self.read_word_2c(0x3f)/16384.0
 
+    def get_all_values
+        return {'x': get_gyro_x, 'y': get_gyro_y, 'z': get_gyro_z}
+
 if __name__ == '__main__':
     device = AccGyro()
     while 1:
